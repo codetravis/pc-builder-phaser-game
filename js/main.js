@@ -1,12 +1,10 @@
+let mainScene = new Phaser.Scene('Game');
+
 var config = {
 	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
-	scene: {
-		preload: preload,
-		create: create,
-		update: update
-	}
+	scene: mainScene
 };
 
 var game = new Phaser.Game(config);
@@ -21,7 +19,7 @@ var computerObject = {
 };
 var computerCost = 0;
 
-function preload () {
+mainScene.preload = function () {
 	this.load.image('desktop_oldwhite', 'assets/desktop_oldwhite.png');
 	this.load.image('desktop_newblack', 'assets/desktop_newblack.png');
 	this.load.image('laptop_generic', 'assets/laptop_generic.png');
@@ -34,7 +32,7 @@ function preload () {
 	this.load.image('button_basicblue', 'assets/buttonLong_blue.png');
 }
 
-function create () {
+mainScene.create = function () {
 	
 	this.purchaseMenuButton = this.add.image(100, 100, 'button_basicblue');
 	this.purchaseMenuButton.interfaceType = 'menuButton';
@@ -49,7 +47,7 @@ function create () {
 	this.input.on('gameobjectdown', onPartClicked);
 }
 
-function update () {
+mainScene.update = function () {
 	this.computerValue.text = "Computer Value: " + computerCost;
 }
 
