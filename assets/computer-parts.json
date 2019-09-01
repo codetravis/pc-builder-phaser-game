@@ -1,0 +1,13 @@
+{
+	"Basic Desktop" : {
+		"imageName": "desktop_oldwhite",
+		"cost": 100,
+		"partType": "computer",
+		"stats" : {
+			"processing": 10.0,
+			"graphics": 0,
+			"sound": 1.0,
+			"ergonomics": 0
+		}
+	}
+}

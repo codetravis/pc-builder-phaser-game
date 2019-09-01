@@ -1,3 +1,5 @@
+import { ComputerPart } from '../game-objects/computer-part';
+
 export class MainBuildScene extends Phaser.Scene {
    
    preload () {
@@ -11,6 +13,7 @@ export class MainBuildScene extends Phaser.Scene {
       this.load.image('keyboard_oldwhite', 'assets/keyboard_oldwhite.png');
       this.load.image('mouse_oldwhite', 'assets/mouse_oldwhite.png');
       this.load.image('button_basicblue', 'assets/buttonLong_blue.png');
+	  this.load.json('menuItems', 'assets/computer-parts.json');
    }
    
    create () {
@@ -24,9 +27,14 @@ export class MainBuildScene extends Phaser.Scene {
          controller: null
       };
       this.computerCost = 0;
+	  this.menuParts = [];
+	  
+	  let data = this.cache.json.get('menuItems');
+	  this.fillMenuWithParts(data);
+	  
       this.purchaseMenuButton = this.add.image(100, 100, 'button_basicblue');
       this.purchaseMenuButton.setInteractive();
-      this.purchaseMenuButton.on('pointerdown', () => this.createPurchaseMenu());
+      this.purchaseMenuButton.on('pointerdown', () => this.showPurchaseMenu());
 
       var textConfig = { fontSize: '20px', color: '#0000FF', fontFamily: 'Arial' };
 
@@ -37,20 +45,18 @@ export class MainBuildScene extends Phaser.Scene {
    update () {
       this.computerValue.text = "Computer Value: " + this.computerCost;
    }
+   
+   fillMenuWithParts (data) {
+	  
+   }
 
-   createPurchaseMenu () {
+   showPurchaseMenu () {
 
-      this.desktop_oldwhite = this.add.image(300, 200, 'desktop_oldwhite');
-      this.desktop_oldwhite.setInteractive();
-      this.desktop_oldwhite.cost = 100;
-      this.desktop_oldwhite.partType = "computer";
-      this.desktop_oldwhite.on('pointerdown', () => this.onPartClicked(this, this.desktop_oldwhite)); 
+      this.desktop_oldwhite = new ComputerPart(this, 300, 200, 'desktop_oldwhite', this.onPartClicked, { cost: 100, partType: "computer" });
+	  this.add.existing(this.desktop_oldwhite);
 
-      this.monitor_crt = this.add.image(100, 200, 'monitor_crt');
-      this.monitor_crt.setInteractive();
-      this.monitor_crt.cost = 50;
-      this.monitor_crt.partType = "monitor";
-      this.monitor_crt.on('pointerdown', () => this.onPartClicked(this, this.monitor_crt));
+      this.monitor_crt = new ComputerPart(this, 100, 200, 'monitor_crt', this.onPartClicked, { cost: 50, partType: 'monitor' });
+	  this.add.existing(this.monitor_crt);
    }
 
    onPartClicked(self, part) {
