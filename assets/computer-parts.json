@@ -6,8 +6,57 @@
 		"stats" : {
 			"processing": 10.0,
 			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 0,
+			"memory": 10.0
+		}
+	},
+	"Gaming Desktop" : {
+		"imageName": "desktop_newblack",
+		"cost": 500,
+		"partType": "computer",
+		"stats" : {
+			"processing": 50.0,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 0,
+			"memory": 50.0
+		}
+	},
+	"CRT Monitor": {
+		"imageName": "monitor_crt",
+		"cost": 50,
+		"partType": "monitor",
+		"stats" : {
+			"processing": 10.0,
+			"graphics": 0,
 			"sound": 1.0,
-			"ergonomics": 0
+			"ergonomics": 2.0,
+			"memory": 0
+		}
+	},
+	"Stock Keyboard": {
+		"imageName": "keyboard_oldwhite",
+		"cost": 5,
+		"partType": "keyboard",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 1.0,
+			"memory": 0
+		}
+	},
+	"Ram Module": {
+		"imageName": "ram",
+		"cost": 25,
+		"partType": "internal",
+		"stats" : {
+			"processing": 0.5,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 0,
+			"memory": 2.5
 		}
 	}
 }

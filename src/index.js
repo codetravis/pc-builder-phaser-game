@@ -3,7 +3,7 @@ import { MainBuildScene } from './scenes/main-build-scene';
 
 const gameConfig = {
    width: 680,
-   height: 400,
+   height: 500,
    scene: MainBuildScene
 };
 
