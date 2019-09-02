@@ -5,7 +5,7 @@
 		"partType": "computer",
 		"stats" : {
 			"processing": 10.0,
-			"graphics": 0,
+			"graphics": 1.0,
 			"sound": 0,
 			"ergonomics": 0,
 			"memory": 10.0
@@ -17,21 +17,69 @@
 		"partType": "computer",
 		"stats" : {
 			"processing": 50.0,
-			"graphics": 0,
+			"graphics": 2.0,
 			"sound": 0,
 			"ergonomics": 0,
 			"memory": 50.0
 		}
 	},
+	"Basic Laptop" : {
+		"imageName": "laptop_generic",
+		"cost": 200,
+		"partType": "computer",
+		"stats" : {
+			"processing": 9.0,
+			"graphics": 1.0,
+			"sound": 1.0,
+			"ergonomics": 1.0,
+			"memory": 9.0
+		}
+	},
+	"Artists Laptop" : {
+		"imageName": "laptop_fruit",
+		"cost": 700,
+		"partType": "computer",
+		"stats" : {
+			"processing": 8.0,
+			"graphics": 5.0,
+			"sound": 1.0,
+			"ergonomics": 2.0,
+			"memory": 8.0
+		}
+	},
 	"CRT Monitor": {
 		"imageName": "monitor_crt",
-		"cost": 50,
+		"cost": 30,
 		"partType": "monitor",
 		"stats" : {
-			"processing": 10.0,
+			"processing": 0,
 			"graphics": 0,
 			"sound": 1.0,
 			"ergonomics": 2.0,
+			"memory": 0
+		}
+	},
+	"Standard LCD Monitor": {
+		"imageName": "monitor_lcdstandard",
+		"cost": 80,
+		"partType": "monitor",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 1.0,
+			"ergonomics": 5.0,
+			"memory": 0
+		}
+	},
+	"Wide LCD Monitor": {
+		"imageName": "monitor_lcdwide",
+		"cost": 120,
+		"partType": "monitor",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 1.0,
+			"ergonomics": 9.0,
 			"memory": 0
 		}
 	},
@@ -47,6 +95,42 @@
 			"memory": 0
 		}
 	},
+	"Gaming Keyboard": {
+		"imageName": "keyboard_newblack",
+		"cost": 20,
+		"partType": "keyboard",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 8.0,
+			"memory": 0
+		}
+	},
+	"Stock Mouse": {
+		"imageName": "mouse_oldwhite",
+		"cost": 10,
+		"partType": "mouse",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 5.0,
+			"memory": 0
+		}
+	},
+	"Gaming Mouse": {
+		"imageName": "mouse_newblack",
+		"cost": 50,
+		"partType": "mouse",
+		"stats" : {
+			"processing": 0,
+			"graphics": 0,
+			"sound": 0,
+			"ergonomics": 10.0,
+			"memory": 0
+		}
+	},
 	"Ram Module": {
 		"imageName": "ram",
 		"cost": 25,
@@ -57,6 +141,30 @@
 			"sound": 0,
 			"ergonomics": 0,
 			"memory": 2.5
+		}
+	},
+	"Basic Graphics Card": {
+		"imageName": "graphicscard_standard",
+		"cost": 50,
+		"partType": "graphicscard",
+		"stats" : {
+			"processing": 1.5,
+			"graphics": 10.0,
+			"sound": 0,
+			"ergonomics": 0,
+			"memory": 0
+		}
+	},
+	"Gaming Graphics Card": {
+		"imageName": "graphicscard_gaming",
+		"cost": 300,
+		"partType": "graphicscard",
+		"stats" : {
+			"processing": 2.5,
+			"graphics": 25.0,
+			"sound": 0,
+			"ergonomics": 0,
+			"memory": 0
 		}
 	}
 }

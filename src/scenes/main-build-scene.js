@@ -10,8 +10,15 @@ export class MainBuildScene extends Phaser.Scene {
       this.load.image('ram', 'assets/ram.png');
       this.load.image('soundcard', 'assets/soundcard.png');
       this.load.image('monitor_crt', 'assets/monitor_crt.png');
+      this.load.image('monitor_lcdstandard', 'assets/monitor_lcdstandard.png');
+      this.load.image('monitor_lcdwide', 'assets/monitor_lcdwide.png');
       this.load.image('keyboard_oldwhite', 'assets/keyboard_oldwhite.png');
+      this.load.image('keyboard_newblack', 'assets/keyboard_newblack.png');
       this.load.image('mouse_oldwhite', 'assets/mouse_oldwhite.png');
+      this.load.image('mouse_newblack', 'assets/mouse_newblack.png');
+      this.load.image('graphicscard_standard', 'assets/graphicscard_standard.png');
+      this.load.image('graphicscard_gaming', 'assets/graphicscard_gaming.png');
+
       this.load.image('button_basicblue', 'assets/buttonLong_blue.png');
       this.load.image('arrowBlue_right', 'assets/arrowBlue_right.png');
       this.load.image('arrowBlue_left', 'assets/arrowBlue_left.png');
@@ -30,6 +37,13 @@ export class MainBuildScene extends Phaser.Scene {
          internal: null
       };
       this.computerBuild = [];
+      this.computerStats = {
+         processing: 0,
+			graphics: 0,
+			sound: 0,
+			ergonomics: 0,
+			memory: 0
+      };
 
       this.computerCost = 0;
       this.menuParts = [];
@@ -54,11 +68,17 @@ export class MainBuildScene extends Phaser.Scene {
       var textConfig = { fontSize: '20px', color: '#FFFFFF', fontFamily: 'Arial' };
       this.add.text(20, 90, "Purchase Menu", textConfig);
       this.computerValue = this.add.text(20, 50, "Computer Value: 0", textConfig);
-
+      this.computerStatDisplay = this.add.text(500, 20, "");
    }
 
    update () {
       this.computerValue.text = "Computer Value: $" + this.computerCost;
+
+      let statString = "";
+      Object.keys(this.computerStats).forEach( (stat) => {
+         statString += stat + ": " + this.computerStats[stat] + "\n";
+      });
+      this.computerStatDisplay.text = statString;
    }
    
    fillMenuWithParts (data) {
@@ -113,20 +133,42 @@ export class MainBuildScene extends Phaser.Scene {
 
    onPartClicked(self, part) {
 	   self.computerObject[part.partType] = part;
-	   self.computerCost = self.calculateComputerCost(self.computerObject);
+      self.computerCost = self.calculateComputerCost(self.computerObject);
+      self.computerStats = self.calculateComputerStats(self.computerObject);
    }
 
    calculateComputerCost (computer) {
-      var cost = 0;
-      var keys = Object.keys(computer);
-      keys.forEach( function(key) {
-         var part = computer[key];
+      let cost = 0;
+      let parts = Object.keys(computer);
+      parts.forEach( function(partName) {
+         let part = computer[partName];
          if(part) {
             cost = cost + part.cost;
          }
       });
 
       return cost;
+   }
+
+   calculateComputerStats (computer) {
+      let stats = {};
+      let parts = Object.keys(computer);
+
+      parts.forEach( function(partName) {
+         let part = computer[partName];
+         if(part) {
+            let partStats = Object.keys(part["stats"]);
+            partStats.forEach( function(stat) {
+               if(stats[stat]) {
+                  stats[stat] += part.stats[stat];
+               } else {
+                  stats[stat] = part.stats[stat];
+               }
+            });
+         }
+      });
+      
+      return stats;
    }
 
    hideComputerBuild() {
@@ -152,7 +194,7 @@ export class MainBuildScene extends Phaser.Scene {
          this.computerBuild.push(this.add.image(100, 200, this.computerObject.soundcard.imageName));
       }
       if(this.computerObject.graphicscard) {
-         this.computerBuild.push(this.add.image(100, 350, this.computerObject.graphicscard.imageName));
+         this.computerBuild.push(this.add.image(100, 320, this.computerObject.graphicscard.imageName));
       }
       if(this.computerObject.internal) {
          this.computerBuild.push(this.add.image(100, 400, this.computerObject.internal.imageName));
