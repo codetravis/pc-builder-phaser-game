@@ -1,10 +1,12 @@
 import 'phaser';
+import { StartGameScene } from './scenes/start-game-scene';
 import { MainBuildScene } from './scenes/main-build-scene';
+
 
 const gameConfig = {
    width: 680,
    height: 500,
-   scene: MainBuildScene
+   scene: [StartGameScene, MainBuildScene]
 };
 
-new Phaser.Game(gameConfig);
+let game = new Phaser.Game(gameConfig);

@@ -2,7 +2,16 @@ import { ComputerPart } from '../game-objects/computer-part';
 
 export class MainBuildScene extends Phaser.Scene {
    
+   constructor () {
+      super({ key: 'MainBuildScene' });
+   }
+
+   init(props) {
+      this.currentLevel = (props) ? props.level : 0;
+   }
+
    preload () {
+      this.currentLevel = 0;
       this.load.image('desktop_oldwhite', 'assets/desktop_oldwhite.png');
       this.load.image('desktop_newblack', 'assets/desktop_newblack.png');
       this.load.image('laptop_generic', 'assets/laptop_generic.png');
@@ -22,20 +31,30 @@ export class MainBuildScene extends Phaser.Scene {
       this.load.image('button_basicblue', 'assets/buttonLong_blue.png');
       this.load.image('arrowBlue_right', 'assets/arrowBlue_right.png');
       this.load.image('arrowBlue_left', 'assets/arrowBlue_left.png');
-	   this.load.json('menuItems', 'assets/computer-parts.json');
+      this.load.json('menuItems', 'assets/computer-parts.json');
+      this.load.json('levelData', 'assets/level-' + this.currentLevel + '.json');
    }
    
    create () {
-      this.computerObject = {
-         monitor: null,
-         computer: null,
-         keyboard: null,
-         mouse: null,
-         graphicscard: null,
-         soundcard: null,
-         controller: null,
-         internal: null
-      };
+      this.levelData = this.cache.json.get('levelData');
+      console.log(this.levelData);
+      this.levelComplete = false;
+
+      if(this.levelData.prebuilt) {
+         this.computerObject = this.levelData.prebuilt;
+      } else {
+         this.computerObject = {
+            monitor: null,
+            computer: null,
+            keyboard: null,
+            mouse: null,
+            graphicscard: null,
+            soundcard: null,
+            controller: null,
+            internal: null
+         };
+      }
+
       this.computerBuild = [];
       this.computerStats = {
          processing: 0,
@@ -51,8 +70,8 @@ export class MainBuildScene extends Phaser.Scene {
       this.menuStartIndex = 0;
       this.isMenuShowing = false;
 	  
-	   let data = this.cache.json.get('menuItems');
-	   this.fillMenuWithParts(data);
+	   let menuData = this.cache.json.get('menuItems');
+      this.fillMenuWithParts(menuData);
 	  
       this.purchaseMenuButton = this.add.image(100, 100, 'button_basicblue');
       this.purchaseMenuButton.setInteractive();
@@ -74,11 +93,13 @@ export class MainBuildScene extends Phaser.Scene {
    update () {
       this.computerValue.text = "Computer Value: $" + this.computerCost;
 
-      let statString = "";
+      let statString = "Level Complete: ";
+      statString += (this.levelComplete) ? "True\n" : "False\n";
       Object.keys(this.computerStats).forEach( (stat) => {
          statString += stat + ": " + this.computerStats[stat] + "\n";
       });
       this.computerStatDisplay.text = statString;
+      this.checkLevelRequirements();
    }
    
    fillMenuWithParts (data) {
@@ -132,7 +153,11 @@ export class MainBuildScene extends Phaser.Scene {
    }
 
    onPartClicked(self, part) {
-	   self.computerObject[part.partType] = part;
+      if(self.computerObject[part.partType] && self.computerObject[part.partType].imageName === part.imageName) {
+         self.computerObject[part.partType] = null;
+      } else {
+         self.computerObject[part.partType] = part;
+      }
       self.computerCost = self.calculateComputerCost(self.computerObject);
       self.computerStats = self.calculateComputerStats(self.computerObject);
    }
@@ -200,4 +225,29 @@ export class MainBuildScene extends Phaser.Scene {
          this.computerBuild.push(this.add.image(100, 400, this.computerObject.internal.imageName));
       }
    }
+
+   checkLevelRequirements () {
+      this.levelComplete = true;
+
+      let stats = Object.keys(this.computerStats);
+      stats.forEach( (stat) => {
+         if(this.computerStats[stat] < this.levelData.targetStats[stat]) {
+            this.levelComplete = false;
+         }
+      });
+
+      if(this.computerCost > this.levelData.targetCost) {
+         this.levelComplete = false;
+      }
+
+      let parts = Object.keys(this.computerObject);
+      parts.forEach( (part) => {
+         if(!this.computerObject[part] && this.levelData.requiredParts[part]) {
+            this.levelComplete = false;
+         }
+      });
+
+   }
+
+
 }
